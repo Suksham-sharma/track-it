@@ -13,11 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum urlRangeStatus {
+  LIVE
+  EXHAUSTED
+}
+
 model urlRange {
-  id        Int      @id @default(autoincrement())
-  start     Int
-  end       Int
-  current   Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id      Int            @id @default(autoincrement())
+  start   Int
+  end     Int
+  current Int
+  status  urlRangeStatus
 }
