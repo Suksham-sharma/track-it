@@ -39,7 +39,6 @@ class DynamoDBService {
       });
 
       const response = await this.client.send(command);
-      console.log(response);
 
       if (response) return true;
     } catch (err) {
@@ -76,13 +75,14 @@ class DynamoDBService {
     }
   }
 
-  async putItem(item: any) {
+  async putItem(item: { shortCode: string; destinationUrl: string }) {
     try {
+      await this.createTableIfNotExists();
       const command = new PutCommand({
         TableName: this.tableName,
         Item: {
           shortCode: item.shortCode,
-          longUrl: item.longUrl,
+          destinationUrl: item.destinationUrl,
         },
       });
 

@@ -30,6 +30,7 @@ export const protectedRoute = async (
     if (!findUser) return ErrorResponse(res, 404, "User not found");
 
     req.userId = findUser.id;
+    next();
   } catch (error: any) {
     ErrorResponse(res, 500, "Internal server error");
   }

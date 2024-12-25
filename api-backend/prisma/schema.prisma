@@ -22,9 +22,12 @@ model User {
 }
 
 model userLink {
-  id              Int    @unique
-  destinationLink String
-  shortLink       String @unique
-  userId          Int
-  user            User   @relation(fields: [userId], references: [id])
+  id             Int      @unique
+  destinationUrl String
+  shortLink      String   @unique
+  userId         Int
+  user           User     @relation(fields: [userId], references: [id])
+  description    String?
+  createdAt      DateTime @default(now())
+  tags           String[]
 }
