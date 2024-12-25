@@ -1,28 +1,58 @@
-export const randomString =
-  "aZbYcXdWeVfUgThSiRjQkPlOmNnMoLpKqJrIsHtGuFvEwDxCyBzA0123456789";
+class TranscodingManager {
+  private static instance: TranscodingManager;
 
-export const encodeUrlIdToHash = (id: number) => {
-  try {
-    if (id === 0) return false;
+  private readonly RANDOM_STRING =
+    "aZbYcXdWeVfUgThSiRjQkPlOmNnMoLpKqJrIsHtGuFvEwDxCyBzA0123456789";
+  private readonly BASE = this.RANDOM_STRING.length;
 
-    let hashArray = [];
+  private constructor() {}
 
-    while (id > 0) {
-      hashArray.push(randomString[id % 62]);
-      id = Math.floor(id / 62);
+  public static getInstance(): TranscodingManager {
+    if (!TranscodingManager.instance) {
+      TranscodingManager.instance = new TranscodingManager();
     }
-  } catch (error) {}
-};
+    return TranscodingManager.instance;
+  }
 
-export const decodeHashToUrlId = (hash: string) => {
-  try {
+  public encodeUrlIdToHash(id: number): string | null {
+    if (id <= 0) return null;
+
+    let hash = "";
+
+    try {
+      while (id > 0) {
+        const remainder = id % this.BASE;
+        hash = this.RANDOM_STRING[remainder] + hash;
+        id = Math.floor(id / this.BASE);
+      }
+    } catch (error: unknown) {
+      console.log(`Error encoding ID: ${error}`);
+      return null;
+    }
+
+    return hash;
+  }
+
+  public decodeHashToUrlId(hash: string): number | null {
+    if (!hash || typeof hash !== "string") return null;
+
     let id = 0;
-    let length = hash.length;
 
-    for (let i = 0; i < length; i++) {
-      id += randomString.indexOf(hash[i]) * Math.pow(62, length - i - 1);
+    try {
+      for (let i = 0; i < hash.length; i++) {
+        const charIndex = this.RANDOM_STRING.indexOf(hash[i]);
+        if (charIndex === -1) throw new Error(`Invalid character: ${hash[i]}`);
+        id = id * this.BASE + charIndex;
+      }
+    } catch (error) {
+      console.log(`Error decoding hash: ${error}`);
+      return null;
     }
 
     return id;
-  } catch (error) {}
-};
+  }
+}
+
+const transcoder = TranscodingManager.getInstance();
+
+export default transcoder;
