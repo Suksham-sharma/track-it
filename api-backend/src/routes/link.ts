@@ -2,8 +2,9 @@ import { Router, Request, Response } from "express";
 import { linkData } from "../dtos/link-dto";
 import { ErrorResponse, generateUniqueId } from "../lib/helpers";
 import prismaClient from "../lib/prismaClient";
-import transcoder from "../lib/transcoding";
-import { dynamoDBService } from "../lib/awsManager";
+import transcoder from "../lib/managers/transcoding";
+import { dynamoDBService } from "../lib/managers/awsManager";
+import { config } from "../lib/config";
 
 export const linkRouter = Router();
 
@@ -41,7 +42,10 @@ linkRouter.post("/", async (req: Request, res: Response): Promise<any> => {
       destinationUrl: createdLink.destinationUrl,
     });
 
-    res.send({ message: "Link created successfully", data: createdLink });
+    res.send({
+      message: "Link created successfully",
+      shortUrl: config.baseUrl + shortUrl,
+    });
   } catch (error: unknown) {
     ErrorResponse(res, 500, "Internal server error");
   }

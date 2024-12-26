@@ -105,7 +105,8 @@ class DynamoDBService {
       });
 
       const response = await this.client.send(command);
-      console.log(response);
+      const item = response.Items?.[0]?.destinationUrl;
+      return item;
     } catch (err) {
       console.log("Error getting item:", err);
     }
