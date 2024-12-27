@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { ErrorResponse } from "../lib/helpers";
 import jwt from "jsonwebtoken";
 import { config } from "../lib/config";
 import prismaClient from "../lib/prismaClient";
+import { ErrorResponse } from "../lib/helpers/response-helpers";
 
 export const protectedRoute = async (
   req: Request,

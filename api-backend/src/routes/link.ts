@@ -1,10 +1,11 @@
 import { Router, Request, Response } from "express";
 import { linkData } from "../dtos/link-dto";
-import { ErrorResponse, generateUniqueId } from "../lib/helpers";
 import prismaClient from "../lib/prismaClient";
 import transcoder from "../lib/managers/transcoding";
 import { dynamoDBService } from "../lib/managers/awsManager";
 import { config } from "../lib/config";
+import { ErrorResponse } from "../lib/helpers/response-helpers";
+import { generateUniqueId } from "../lib/helpers/utils";
 
 export const linkRouter = Router();
 

@@ -20,5 +20,14 @@ class KafkaManager {
     return this.instance;
   }
 
-  async produceEvents(topic: string, data: any) {}
+  async produceEvents(topic: string, data: any) {
+    await this.kafkaProducer.connect();
+    await this.kafkaProducer.send({
+      topic,
+      messages: [{ value: JSON.stringify(data) }],
+    });
+  }
 }
+
+const kafkaManager = KafkaManager.getInstance();
+export default kafkaManager;

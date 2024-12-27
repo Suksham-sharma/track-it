@@ -1,13 +1,7 @@
-import { Response } from "express";
 import axios from "axios";
-import { dynamoDBService } from "./managers/awsManager";
-
-export function ErrorResponse(res: Response, status: number, message: string) {
-  res.status(status).json({
-    message: message,
-  });
-  return;
-}
+import { dynamoDBService } from "../managers/awsManager";
+import { getClientAnalytics } from "./userinfo-helper";
+import kafkaManager from "../managers/kafkaManager";
 
 export async function generateUniqueId() {
   try {
@@ -33,4 +27,10 @@ export async function getRedirectUrl(shortUrl: string): Promise<string> {
   } catch (error) {
     return "https://app.dub.co/suksham";
   }
+}
+
+export async function publishClientMetaData(req: any) {
+  const clientData = await getClientAnalytics(req);
+  // await kafkaManager.produceEvents("client-info", clientData);
+  console.log("Client Data", clientData);
 }

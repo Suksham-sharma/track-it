@@ -1,12 +1,17 @@
 import express, { Request, Response } from "express";
 import { apiRouter } from "./routes";
-import { getRedirectUrl } from "./lib/helpers";
 import { config } from "./lib/config";
+import { getRedirectUrl, publishClientMetaData } from "./lib/helpers/utils";
 
 const app = express();
 app.use(express.json());
 
 app.use("/api/v1", apiRouter);
+
+app.get("/", (req: Request, res: Response) => {
+  publishClientMetaData(req);
+  res.send("Hello world");
+});
 
 app.get("/:shortUrl", async (req: Request, res: Response): Promise<any> => {
   const { shortUrl } = req.params;

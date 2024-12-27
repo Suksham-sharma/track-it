@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
 import { signInData, signUpData } from "../dtos/auth-dto";
 import prismaClient from "../lib/prismaClient";
-import { ErrorResponse } from "../lib/helpers";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { config } from "../lib/config";
+import { ErrorResponse } from "../lib/helpers/response-helpers";
 
 export const authRouter = Router();
 
