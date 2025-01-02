@@ -19,6 +19,7 @@ interface ConnectionInfo {
 
 export interface GeolocationData {
   status: string;
+  continent?: string;
   country?: string;
   countryCode?: string;
   region?: string;
@@ -27,10 +28,6 @@ export interface GeolocationData {
   zip?: string;
   lat?: number;
   lon?: number;
-  timezone?: string;
-  isp?: string;
-  org?: string;
-  as?: string;
   message?: string;
 }
 

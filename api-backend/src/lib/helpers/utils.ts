@@ -31,6 +31,6 @@ export async function getRedirectUrl(shortUrl: string): Promise<string> {
 
 export async function publishClientMetaData(req: any) {
   const clientData = await getClientAnalytics(req);
-  // await kafkaManager.produceEvents("client-info", clientData);
+  await kafkaManager.produceEvents("client-info", clientData);
   console.log("Client Data", clientData);
 }

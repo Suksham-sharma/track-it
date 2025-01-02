@@ -110,7 +110,7 @@ const getGeolocation = async (ip: string): Promise<GeolocationData | null> => {
 
   try {
     const response = await axios.get<GeolocationData>(
-      `http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as`
+      `http://ip-api.com/json/${ip}?fields=status,message,continent,country,countryCode,region,regionName,city,zip,timezone`
     );
     return response.data;
   } catch (error) {
